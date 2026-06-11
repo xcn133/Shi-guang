@@ -82,9 +82,6 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { useMemoryStore } from '@/stores/memory'
-
-const store = useMemoryStore()
 
 const startDate = new Date(2026, 1, 24, 0, 0, 0)
 

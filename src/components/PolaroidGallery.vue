@@ -137,7 +137,7 @@ function handleTouchStart(index: number) {
   touchIndex.value = index
 }
 
-function handleTouchEnd(photo: Photo, index: number) {
+function handleTouchEnd(_photo: Photo, _index: number) {
   setTimeout(() => {
     touchIndex.value = null
   }, 300)
