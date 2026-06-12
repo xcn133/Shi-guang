@@ -8,8 +8,8 @@
         :style="getPolaroidStyle(index)"
         @mouseenter="handleHover(index, true)"
         @mouseleave="handleHover(index, false)"
-        @touchstart="handleTouchStart(index)"
-        @touchend="handleTouchEnd(photo, index)"
+        @touchstart.passive="handleTouchStart($event, index)"
+        @touchend="handleTouchEnd($event, photo, index)"
         @click="handleClick(photo, index)"
       >
         <div class="relative overflow-hidden rounded-sm">
@@ -114,6 +114,8 @@ const store = useMemoryStore()
 const hoveredIndex = ref<number | null>(null)
 const touchIndex = ref<number | null>(null)
 const selectedPhoto = ref<Photo | null>(null)
+const touchStartX = ref(0)
+const touchStartY = ref(0)
 
 function getPolaroidStyle(index: number) {
   const rotations = [-5, 3, -2, 4, -3, 2]
@@ -133,17 +135,39 @@ function handleHover(index: number, isHovered: boolean) {
   hoveredIndex.value = isHovered ? index : null
 }
 
-function handleTouchStart(index: number) {
+function handleTouchStart(e: TouchEvent, index: number) {
   touchIndex.value = index
+  touchStartX.value = e.touches[0].clientX
+  touchStartY.value = e.touches[0].clientY
 }
 
-function handleTouchEnd(_photo: Photo, _index: number) {
+function handleTouchEnd(e: TouchEvent, photo: Photo, index: number) {
+  const touchEndX = e.changedTouches[0].clientX
+  const touchEndY = e.changedTouches[0].clientY
+  const diffX = Math.abs(touchStartX.value - touchEndX)
+  const diffY = Math.abs(touchStartY.value - touchEndY)
+  
+  if (diffX > 10 || diffY > 10) {
+    setTimeout(() => {
+      touchIndex.value = null
+    }, 100)
+    return
+  }
+  
+  selectedPhoto.value = photo
+  store.goToPhoto(index)
+  ;(handleClick as any)._lastTouch = Date.now()
+  
   setTimeout(() => {
     touchIndex.value = null
   }, 300)
 }
 
 function handleClick(photo: Photo, index: number) {
+  if (window.innerWidth < 768) {
+    const now = Date.now()
+    if (now - (handleClick as any)._lastTouch < 350) return
+  }
   selectedPhoto.value = photo
   store.goToPhoto(index)
 }

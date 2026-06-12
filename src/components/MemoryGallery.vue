@@ -1,10 +1,5 @@
 <template>
-  <div 
-    class="relative min-h-screen overflow-hidden"
-    @touchstart="handleTouchStart"
-    @touchmove="handleTouchMove"
-    @touchend="handleTouchEnd"
-  >
+  <div class="relative min-h-screen overflow-x-hidden">
     <div class="absolute inset-0 bg-gradient-to-br from-pink-200/30 via-purple-300/30 to-blue-200/30" />
     
     <PetalEffect v-if="store.showPetals" />
@@ -18,6 +13,7 @@
     <FinalReveal />
     <HeartCanvas @hearts-ready="handleHeartsReady" />
     <QuoteButton @show-quote="handleShowQuote" />
+    <PhotoManager />
     
     <LoveFragment v-for="fragment in fragments" :key="fragment.id" :id="fragment.id" :x="fragment.x" :y="fragment.y" />
     
@@ -174,6 +170,7 @@ import HeartCanvas from './HeartCanvas.vue'
 import FlyingHearts from './FlyingHearts.vue'
 import FloatingQuotes from './FloatingQuotes.vue'
 import QuoteButton from './QuoteButton.vue'
+import PhotoManager from './PhotoManager.vue'
 
 const store = useMemoryStore()
 
@@ -196,8 +193,6 @@ const fragments = ref([
 ])
 
 const showModeMenu = ref(false)
-const touchStartX = ref(0)
-const touchStartY = ref(0)
 
 function handleFirework() {
   if (fireworkRef.value) {
@@ -214,30 +209,6 @@ function handleHeartsReady(count: number) {
 function handleShowQuote(text: string) {
   if (floatingQuotesRef.value) {
     floatingQuotesRef.value.showQuote(text)
-  }
-}
-
-function handleTouchStart(e: TouchEvent) {
-  touchStartX.value = e.touches[0].clientX
-  touchStartY.value = e.touches[0].clientY
-}
-
-function handleTouchMove(e: TouchEvent) {
-  e.preventDefault()
-}
-
-function handleTouchEnd(e: TouchEvent) {
-  const touchEndX = e.changedTouches[0].clientX
-  const touchEndY = e.changedTouches[0].clientY
-  const diffX = touchStartX.value - touchEndX
-  const diffY = touchStartY.value - touchEndY
-  
-  if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
-    if (diffX > 0) {
-      store.nextPhoto()
-    } else {
-      store.prevPhoto()
-    }
   }
 }
 </script>

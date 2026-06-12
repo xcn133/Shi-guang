@@ -177,7 +177,7 @@ const errorMessages = [
   '嗯...让我给你一点提示吧'
 ]
 
-const startDate = new Date(2026, 1, 24, 0, 0, 0)
+const startDate = new Date(2026, 1, 24, 13, 45, 0)
 
 const timeData = ref({
   days: 0,

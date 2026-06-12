@@ -83,7 +83,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 
-const startDate = new Date(2026, 1, 24, 0, 0, 0)
+const startDate = new Date(2026, 1, 24, 13, 45, 0)
 
 const timeData = ref({
   days: 0,
