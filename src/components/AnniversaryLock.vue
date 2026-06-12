@@ -62,7 +62,7 @@
                 type="number"
                 min="1"
                 max="12"
-                placeholder="2"
+                placeholder=""
                 class="w-full px-4 py-3 rounded-xl bg-white/20 border-2 border-white/30 text-white text-center text-lg font-medium placeholder-white/50 focus:outline-none focus:border-pink-400 focus:bg-white/30 transition-all"
                 @keyup.enter="handleSubmit"
               />
@@ -77,7 +77,7 @@
                 type="number"
                 min="1"
                 max="31"
-                placeholder="24"
+                placeholder=""
                 class="w-full px-4 py-3 rounded-xl bg-white/20 border-2 border-white/30 text-white text-center text-lg font-medium placeholder-white/50 focus:outline-none focus:border-pink-400 focus:bg-white/30 transition-all"
                 @keyup.enter="handleSubmit"
               />
